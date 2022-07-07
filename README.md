@@ -2,7 +2,7 @@
 
 ![하이쓰담이 로고](README.assets/%EB%A1%9C%EA%B3%A0-02.png)
 
-![1](README.assets/%EC%9C%A0%ED%98%9C%EB%AF%B8%ED%8C%80_%EC%A4%91%EA%B0%84%EB%B0%9C%ED%91%9C%EC%9E%90%EB%A3%8C_%ED%8E%98%EC%9D%B4%EC%A7%80_02-16571767371906.jpg)
+![1](README.assets/Capture.PNG)
 
 
 
