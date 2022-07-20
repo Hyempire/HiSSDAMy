@@ -1,5 +1,6 @@
 import cv2
 import mediapipe as mp
+
 mp_drawing = mp.solutions.drawing_utils
 mp_drawing_styles = mp.solutions.drawing_styles
 mp_pose = mp.solutions.pose
@@ -34,14 +35,43 @@ with mp_pose.Pose(
 
     # 좌우 눈 사이의 거리 구하기
     if results.pose_landmarks:
-        leftEye = int(results.pose_landmarks.landmark[2].x * image_width)
-        rightEye = int(results.pose_landmarks.landmark[5].x * image_width)
-        dist = abs(leftEye - rightEye)
+        # leftEye = int(results.pose_landmarks.landmark[2].x * image_width)
+        # rightEye = int(results.pose_landmarks.landmark[5].x * image_width)
+        # dist = abs(leftEye - rightEye)
+        #
+        # cv2.putText(
+        #     image, text=f"{leftEye}, {rightEye}, distance = {dist}", org=(10, 30), fontFace=cv2.FONT_HERSHEY_SIMPLEX,
+        #     fontScale=1,
+        #     color=255, thickness=3)
 
-        cv2.putText(
-            image, text=f"{leftEye}, {rightEye}, distance = {dist}", org=(10, 30), fontFace=cv2.FONT_HERSHEY_SIMPLEX,
-            fontScale=1,
-            color=255, thickness=3)
+        leftEyeInner = int(results.pose_landmarks.landmark[1].x * image_width)
+        rightEyeInner = int(results.pose_landmarks.landmark[4].x * image_width)
+        nose = int(results.pose_landmarks.landmark[0].x * image_width)
+
+        leftDist = abs(leftEyeInner - nose)
+        rightDist = abs(rightEyeInner - nose)
+        centerDist = abs(leftDist - rightDist)
+
+        if leftDist > rightDist:
+            cv2.putText(
+                image, text=f"Left", org=(10, 30),
+                fontFace=cv2.FONT_HERSHEY_SIMPLEX,
+                fontScale=1,
+                color=255, thickness=3)
+        elif centerDist <= 15:
+            cv2.putText(
+                image, text=f"Center", org=(10, 30),
+                fontFace=cv2.FONT_HERSHEY_SIMPLEX,
+                fontScale=1,
+                color=255, thickness=3)
+        else:
+            cv2.putText(
+                image, text=f"Right", org=(10, 30),
+                fontFace=cv2.FONT_HERSHEY_SIMPLEX,
+                fontScale=1,
+                color=255, thickness=3)
+
+
 
     else:
         continue
