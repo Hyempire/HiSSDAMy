@@ -2,10 +2,10 @@ import cv2
 import mediapipe as mp
 import PoseModule as poseModule
 import time
+import sys
 from gtts import gTTS
 import playsound
 import os
-import msvcrt
 
 # pose 돌리는데 필요한 모듈들을 변수에 담아줌
 mp_drawing = mp.solutions.drawing_utils
@@ -25,7 +25,7 @@ right_result = []
 end = 2
 
 current_time = 1
-time_end = 99999999999999
+time_end = sys.maxsize
 
 while cap.isOpened():
 
@@ -56,12 +56,33 @@ while cap.isOpened():
             left_result = left
             right_result = right
             print(f"{center_result}\n{left_result}\n{right_result}")
-            time_end = 999999999999999
-            # voice = gTTS("조명이 설정되었습니다", lang='ko')
-            # voice.save("voice.mp3")
-            # playsound.playsound("voice.mp3")
-            # os.remove("voice.mp3")
-            # current_time = 0
+
+            if len(center_result) >= len(left_result) and len(center_result) >= len(right_result):
+                final_direct = "Center"
+            elif len(left_result) > len(center_result) and len(left_result) > len(right_result):
+                final_direct = "Left"
+            elif len(right_result) > len(center_result) and len(right_result) > len(left_result):
+                final_direct = "Right"
+            else:
+                final_direct = "Center"  # 디폴트값 센터로 함
+            print(f"final direction = {final_direct}")
+            print("-"*80)
+
+            if final_direct == "Center":
+                voice = gTTS("텔레비전이 설정되었습니다", lang='ko')
+            elif final_direct == "Left":
+                voice = gTTS("조명이 설정되었습니다", lang='ko')
+            elif final_direct == "Right":
+                voice = gTTS("에어컨이 설정되었습니다", lang='ko')
+            else:
+                voice = gTTS("버튼을 다시 눌러주세요", lang='ko')
+
+            voice.save("voice.mp3")
+            playsound.playsound("voice.mp3")
+            os.remove("voice.mp3")
+
+            time_end = sys.maxsize
+
         else:
             pass
 
