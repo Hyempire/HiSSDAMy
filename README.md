@@ -1,3 +1,11 @@
+# 필요한 파이썬 파일
+
+### `PoseModule.py`
+
+### `PoseModuleTest3.py`
+
+
+
 # Hi-SSDAMy
 
 ![하이쓰담이 로고](README.assets/%EB%A1%9C%EA%B3%A0-02.png)
