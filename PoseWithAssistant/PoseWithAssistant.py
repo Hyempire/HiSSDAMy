@@ -187,14 +187,15 @@ def assistant_send(api_endpoint, credentials,
     with SampleTextAssistant(lang, device_model_id, device_id, display,
                              grpc_channel, grpc_deadline) as assistant:
         while True:
-            query = click.prompt('')
-            click.echo('<you> %s' % query)
-            response_text, response_html = assistant.assist(text_query=query)
+            # query = click.prompt('')
+            # click.echo('<you> %s' % query)
+            response_text, response_html = assistant.assist(text_query="Hi")
             if display and response_html:
                 system_browser = browser_helpers.system_browser
                 system_browser.display(response_html)
             if response_text:
                 click.echo('<@assistant> %s' % response_text)
+            break
 
 # pose 돌리는데 필요한 모듈들을 변수에 담아줌
 mp_drawing = mp.solutions.drawing_utils
