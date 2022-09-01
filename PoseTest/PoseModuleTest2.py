@@ -9,7 +9,6 @@ import os
 # from scipy.io import wavfile
 
 
-
 center_direct_list = []
 left_direct_list = []
 right_direct_list = []
