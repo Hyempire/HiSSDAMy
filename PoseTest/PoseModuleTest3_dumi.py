@@ -27,6 +27,9 @@ end = 2
 current_time = 1
 time_end = sys.maxsize
 
+"""여기보세용~~!!!! 더미데이터입니다~~!!!!"""
+pose_Item = {'조명': 'randomCapture2.PNG', 'TV': 'randomCapture1.PNG', '에어컨': 'randomCapture3.PNG'}
+
 while cap.isOpened():
 
     success, image = cap.read()
@@ -68,18 +71,18 @@ while cap.isOpened():
             print(f"final direction = {final_direct}")
             print("-"*80)
 
-            if final_direct == "Center":
-                voice = gTTS("텔레비전이 설정되었습니다", lang='ko')
-            elif final_direct == "Left":
-                voice = gTTS("조명이 설정되었습니다", lang='ko')
-            elif final_direct == "Right":
-                voice = gTTS("에어컨이 설정되었습니다", lang='ko')
-            else:
-                voice = gTTS("버튼을 다시 눌러주세요", lang='ko')
-
-            voice.save("voice.mp3")
-            playsound.playsound("voice.mp3")
-            os.remove("voice.mp3")
+            # if final_direct == "Center":
+            #     voice = gTTS("텔레비전이 설정되었습니다", lang='ko')
+            # elif final_direct == "Left":
+            #     voice = gTTS("조명이 설정되었습니다", lang='ko')
+            # elif final_direct == "Right":
+            #     voice = gTTS("에어컨이 설정되었습니다", lang='ko')
+            # else:
+            #     voice = gTTS("버튼을 다시 눌러주세요", lang='ko')
+            #
+            # voice.save("voice.mp3")
+            # playsound.playsound("voice.mp3")
+            # os.remove("voice.mp3")
 
             time_end = sys.maxsize
 
