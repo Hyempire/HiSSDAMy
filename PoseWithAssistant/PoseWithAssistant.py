@@ -138,12 +138,14 @@ class SampleTextAssistant(object):
               help='Path to read OAuth2 credentials.')
 @click.option('--device-model-id',
               metavar='<device model id>',
-              required=True,
+              # required=True,
+              default='assistant-870ac-raspberry-pi-4-sq5aaj',
               help=(('Unique device model identifier, '
                      'if not specifed, it is read from --device-config')))
 @click.option('--device-id',
               metavar='<device id>',
-              required=True,
+              # required=True,
+              default='assistant-870ac',
               help=(('Unique registered device instance identifier, '
                      'if not specified, it is read from --device-config, '
                      'if no device_config found: a new device is registered '
@@ -189,7 +191,7 @@ def assistant_send(api_endpoint, credentials,
         while True:
             # query = click.prompt('')
             # click.echo('<you> %s' % query)
-            response_text, response_html = assistant.assist(text_query="Hi")
+            response_text, response_html = assistant.assist(text_query="set the light less bright")
             if display and response_html:
                 system_browser = browser_helpers.system_browser
                 system_browser.display(response_html)
@@ -204,7 +206,7 @@ mp_pose = mp.solutions.pose
 
 # 웹캠을 연결함
 # cap = cv2.VideoCapture(0, cv2.CAP_DSHOW)
-cap = cv2.VideoCapture(0, cv2.CAP_DSHOW)
+cap = cv2.VideoCapture(0)
 print(cap.isOpened())
 assistant_send()
 
