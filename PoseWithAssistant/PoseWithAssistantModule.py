@@ -80,6 +80,7 @@ class SampleTextAssistant(object):
         return self
 
     def __exit__(self, etype, e, traceback):
+        # pass
         if e:
             return False
 
@@ -188,107 +189,120 @@ def assistant_send(api_endpoint, credentials,
 
     with SampleTextAssistant(lang, device_model_id, device_id, display,
                              grpc_channel, grpc_deadline) as assistant:
-        while True:
+        # while True:
             # query = click.prompt('')
             # click.echo('<you> %s' % query)
             response_text, response_html = assistant.assist(text_query="set the light less bright")
-            if display and response_html:
-                system_browser = browser_helpers.system_browser
-                system_browser.display(response_html)
-            if response_text:
-                click.echo('<@assistant> %s' % response_text)
-            break
+            print(response_text) 
+            print(response_html)
+
+            # return False
+            # if display and response_html:
+            #     system_browser = browser_helpers.system_browser
+            #     system_browser.display(response_html)
+            # if response_text:
+            #     click.echo('<@assistant> %s' % response_text)
+            # break
+
+    print("WITH 바깥")
+    # sys.exit()
+    return 0
+
+
 
 # pose 돌리는데 필요한 모듈들을 변수에 담아줌
-mp_drawing = mp.solutions.drawing_utils
-mp_drawing_styles = mp.solutions.drawing_styles
-mp_pose = mp.solutions.pose
+# mp_drawing = mp.solutions.drawing_utils
+# mp_drawing_styles = mp.solutions.drawing_styles
+# mp_pose = mp.solutions.pose
 
 # 웹캠을 연결함
 # cap = cv2.VideoCapture(0, cv2.CAP_DSHOW)
-cap = cv2.VideoCapture(0)
-print(cap.isOpened())
-assistant_send()
+# '/dev/video1'
+# cap = cv2.VideoCapture('/dev/video0', cv2.CAP_DSHOW)
+# fps = cap.get(cv2.CAP_PROP_FPS)
+# print("Frames per second using video.get(cv2.CAP_PROP_FPS: {0}".format(fps))
+# print("iscapOpended: ", cap.isOpened())
+# assistant_send()
 
 # pose 돌리는 데 필요한 설정
-pose = mp_pose.Pose(min_detection_confidence=0.5, min_tracking_confidence=0.5)
+# pose = mp_pose.Pose(min_detection_confidence=0.5, min_tracking_confidence=0.5)
 
-center_result = []
-left_result = []
-right_result = []
+# center_result = []
+# left_result = []
+# right_result = []
 
-end = 2
+# end = 2
 
-current_time = 1
-time_end = sys.maxsize
+# current_time = 1
+# time_end = sys.maxsize
 
-while cap.isOpened():
+# while cap.isOpened():
 
-    success, image = cap.read()
-    if not success:
-        print("EMPTY CAMERA FRAME")
-        continue
+#     success, image = cap.read()
+#     if not success:
+#         print("EMPTY CAMERA FRAME")
+#         continue
 
-    pose_results, output_image = poseModule.detectPose(image, pose)
-    key = cv2.waitKey(1) & 0xFF
+#     pose_results, output_image = poseModule.detectPose(image, pose)
+#     key = cv2.waitKey(1) & 0xFF
 
-    if pose_results.pose_landmarks:
-        directionResult, center, left, right = poseModule.poseDirection(output_image, pose_results,
-                                                                        center_result, left_result, right_result,
-                                                                        threshold=7)
-        current_time = time.time()
+#     if pose_results.pose_landmarks:
+#         directionResult, center, left, right = poseModule.poseDirection(output_image, pose_results,
+#                                                                         center_result, left_result, right_result,
+#                                                                         threshold=7)
+#         current_time = time.time()
 
-        if key == ord('a'):
-            center_result = []
-            left_result = []
-            right_result = []
-            time_end = current_time + end
-        else:
-            pass
+#         if key == ord('a'):
+#             center_result = []
+#             left_result = []
+#             right_result = []
+#             time_end = current_time + end
+#         else:
+#             pass
 
-        if current_time >= time_end:
-            center_result = center
-            left_result = left
-            right_result = right
-            print(f"{center_result}\n{left_result}\n{right_result}")
+#         if current_time >= time_end:
+#             center_result = center
+#             left_result = left
+#             right_result = right
+#             print(f"{center_result}\n{left_result}\n{right_result}")
 
-            if len(center_result) >= len(left_result) and len(center_result) >= len(right_result):
-                final_direct = "Center"
-            elif len(left_result) > len(center_result) and len(left_result) > len(right_result):
-                final_direct = "Left"
-                assistant_send()
-            elif len(right_result) > len(center_result) and len(right_result) > len(left_result):
-                final_direct = "Right"
-            else:
-                final_direct = "Center"  # 디폴트값 센터로 함
-            print(f"final direction = {final_direct}")
-            print("-"*80)
+#             if len(center_result) >= len(left_result) and len(center_result) >= len(right_result):
+#                 final_direct = "Center"
+#             elif len(left_result) > len(center_result) and len(left_result) > len(right_result):
+#                 final_direct = "Left"
+#                 assistant_send()
+#             elif len(right_result) > len(center_result) and len(right_result) > len(left_result):
+#                 final_direct = "Right"
+#             else:
+#                 final_direct = "Center"  # 디폴트값 센터로 함
+#             print(f"final direction = {final_direct}")
+#             print("-"*80)
 
-            if final_direct == "Center":
-                voice = gTTS("텔레비전이 설정되었습니다", lang='ko')
-            elif final_direct == "Left":
-                voice = gTTS("조명이 설정되었습니다", lang='ko')
-            elif final_direct == "Right":
-                voice = gTTS("에어컨이 설정되었습니다", lang='ko')
-            else:
-                voice = gTTS("버튼을 다시 눌러주세요", lang='ko')
+#             if final_direct == "Center":
+#                 voice = gTTS("텔레비전이 설정되었습니다", lang='ko')
+#             elif final_direct == "Left":
+#                 voice = gTTS("조명이 설정되었습니다", lang='ko')
+#             elif final_direct == "Right":
+#                 voice = gTTS("에어컨이 설정되었습니다", lang='ko')
+#             else:
+#                 voice = gTTS("버튼을 다시 눌러주세요", lang='ko')
 
-            voice.save("voice.mp3")
-            playsound.playsound("voice.mp3")
-            os.remove("voice.mp3")
+#             voice.save("voice.mp3")
+#             playsound.playsound("voice.mp3")
+#             os.remove("voice.mp3")
 
-            time_end = sys.maxsize
+#             time_end = sys.maxsize
 
-        else:
-            pass
-
-
+#         else:
+#             pass
 
 
-    cv2.imshow('PoseModuleTest', output_image)
-    if key == 27:
-        break
 
-cap.release()
+
+#     cv2.imshow('PoseModuleTest', output_image)
+#     if key == 27:
+#         break
+
+# cap.release()
 
 
